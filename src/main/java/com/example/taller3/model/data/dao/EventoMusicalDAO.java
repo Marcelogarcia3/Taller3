@@ -1,5 +1,6 @@
 package com.example.taller3.model.data.dao;
 
+import com.example.taller3.model.Artista;
 import com.example.taller3.model.EventoMusical;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.jooq.impl.DSL.name;
-import static org.jooq.impl.DSL.table;
+import static org.jooq.impl.DSL.*;
 
 public class EventoMusicalDAO {
     public static void agregarEventoMusical(DSLContext query, EventoMusical eventoMusical) {
@@ -37,7 +37,8 @@ public class EventoMusicalDAO {
         String nombreEvento = (String) resultados.getValue(0,"nombre_Evento");
         Date fecha = (Date) resultados.getValue(0,"fecha");
         String lugar = (String) resultados.getValue(0,"lugar");
-        return new EventoMusical(nombreEvento,fecha,lugar,artista);
+        ArrayList<Artista> artistas = (ArrayList<Artista>) resultados.getValue(0,"artista");
+        return new EventoMusical(nombreEvento,fecha,lugar,artistas);
     }
 
     public static List buscarEventoMusical(DSLContext query, String columnaTabla, Object dato){
@@ -55,4 +56,26 @@ public class EventoMusicalDAO {
         }
     }
 
+    private static List<EventoMusical> obtenerListaEventoMusical(Result resultados) {
+        List<EventoMusical> eventosMusicales = new ArrayList<>();
+
+        for (int fila = 0; fila < resultados.size(); fila++) {
+            String nombreEvento = (String) resultados.getValue(fila, "nombreEvento");
+            Date fecha = (Date) resultados.getValue(fila, "fecha");
+            String lugar = (String) resultados.getValue(fila, "lugar");
+            ArrayList<Artista> artistas = new ArrayList<>();
+
+            eventosMusicales.add(new EventoMusical(nombreEvento, fecha, lugar, artistas));
+        }
+
+        return eventosMusicales;
+    }
+
+
+
+
+    public static List obtenerEventoMusical(DSLContext query, String columnaTabla, Object dato){
+        Result resultados = query.select().from(table("Evento")).where(field(columnaTabla).eq(dato)).fetch();
+        return obtenerListaEventoMusical(resultados);
+    }
 }

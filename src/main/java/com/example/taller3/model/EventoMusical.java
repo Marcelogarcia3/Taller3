@@ -7,9 +7,9 @@ public class EventoMusical {
     private String nombreEvento;
     private Date fecha;
     private String lugar;
-    private ArrayList<String> artistas;
+    private ArrayList<Artista> artistas;
 
-    public EventoMusical(String nombreEvento, Date fecha, String lugar, ArrayList<String> artistas) {
+    public EventoMusical(String nombreEvento, Date fecha, String lugar, ArrayList<Artista> artistas) {
         this.nombreEvento = nombreEvento;
         this.fecha = fecha;
         this.lugar = lugar;
@@ -40,11 +40,11 @@ public class EventoMusical {
         this.lugar = lugar;
     }
 
-    public ArrayList<String> getArtistas() {
+    public ArrayList<Artista> getArtistas() {
         return artistas;
     }
 
-    public void setArtistas(ArrayList<String> artistas) {
+    public void setArtistas(ArrayList<Artista> artistas) {
         this.artistas = artistas;
     }
 }
