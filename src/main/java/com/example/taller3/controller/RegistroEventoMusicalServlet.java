@@ -59,7 +59,7 @@ public class RegistroEventoMusicalServlet extends HttpServlet {
             List<String> artistas = new ArrayList<>();
             artistas.add(nombreArtista);
 
-            EventoMusical eventoMusical = new EventoMusical(nombreEvento, fecha, lugar, nombreArtista);
+            EventoMusical eventoMusical = new EventoMusical(nombreEvento, fecha, lugar, (ArrayList<String>) artistas);
 
             try {
                 if (agregarEventoMusical(eventoMusical)) {

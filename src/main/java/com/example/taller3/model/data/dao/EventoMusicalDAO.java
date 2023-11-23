@@ -38,7 +38,7 @@ public class EventoMusicalDAO {
         Date fecha = (Date) resultados.getValue(0,"fecha");
         String lugar = (String) resultados.getValue(0,"lugar");
         ArrayList<Artista> artistas = (ArrayList<Artista>) resultados.getValue(0,"artista");
-        return new EventoMusical(nombreEvento,fecha,lugar,artistas);
+        return new EventoMusical(nombreEvento,fecha,lugar,artista);
     }
 
     public static List buscarEventoMusical(DSLContext query, String columnaTabla, Object dato){
@@ -63,15 +63,13 @@ public class EventoMusicalDAO {
             String nombreEvento = (String) resultados.getValue(fila, "nombreEvento");
             Date fecha = (Date) resultados.getValue(fila, "fecha");
             String lugar = (String) resultados.getValue(fila, "lugar");
-            ArrayList<Artista> artistas = new ArrayList<>();
+            ArrayList<String> artistas = new ArrayList<>();
 
             eventosMusicales.add(new EventoMusical(nombreEvento, fecha, lugar, artistas));
         }
 
         return eventosMusicales;
     }
-
-
 
 
     public static List obtenerEventoMusical(DSLContext query, String columnaTabla, Object dato){

@@ -17,33 +17,31 @@ public class EntradaDAO {
                 .values(entrada.getTipoEntrada(), entrada.getPrecio(), entrada.getDisponibilidad())
                 .execute();
     }
-
-    private List<Entrada> obtenerListaEntradas(Result<Record> resultados) {
+    private static List obtenerListaEntradas(Result resultados) {
         List<Entrada> entradas = new ArrayList<>();
-
-        for (Record record : resultados) {
-            String tipoEntrada = record.get("tipo_entrada", String.class);
-            int precio = record.get("precio", int.class);
-            String disponibilidad = record.get("disponibilidad", String.class);
+        for (int fila = 0; fila < resultados.size(); fila++) {
+            String tipoEntrada = (String) resultados.getValue(fila, "tipoEntrada");
+            int precio = (int) resultados.getValue(fila, "precio");
+            String disponibilidad = (String) resultados.getValue(fila, "disponibilidad");
 
             entradas.add(new Entrada(tipoEntrada, precio, disponibilidad));
         }
-
         return entradas;
     }
 
     private static String[][] exportarDatos(Result resultados) {
         String[][] datosResultado = new String[resultados.size()][3];
         for (int registro = 0; registro < resultados.size(); registro++) {
-            datosResultado[registro][0] = (String) resultados.getValue(registro, "tipo_entrada");
+            datosResultado[registro][0] = (String) resultados.getValue(registro, "tipoEntrada");
             datosResultado[registro][1] = String.valueOf(resultados.getValue(registro, "precio"));
-            datosResultado[registro][2] = String.valueOf(resultados.getValue(registro, "disponibilidad"));
+            datosResultado[registro][2] = (String) resultados.getValue(registro, "disponibilidad");
         }
         return datosResultado;
     }
 
-    public static boolean validarExistenciaEntrada(DSLContext query, String columnaTabla, Object dato) {
-        Result resultados = query.select().from(DSL.table("Entrada")).where(DSL.field(columnaTabla).eq(dato)).fetch();
-        return resultados.size() >= 1;
+    public static List obtenerEntrada(DSLContext query, String columnaTabla, Object dato) {
+        Result resultados = query.select().from(table("Entrada")).where(field(columnaTabla).eq(dato)).fetch();
+        return obtenerListaEntradas(resultados);
     }
+
 }

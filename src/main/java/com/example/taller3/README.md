@@ -1,0 +1,3 @@
+se gestionaran las entradas, ingresos de asistentes, ingreso de artistas, creacion de eventos en la base de datos,
+ademas se tienen relaciones entre las entradas y los asistentes, la entrada con el evento musical, y el artista con el evento musical
+se usaran los servlets como los controladores, dentro de las funcionalidades se encuentean el agregar asistentes, artistas, eventos y se venderan entradas, quedando respaldo en la base de datos
